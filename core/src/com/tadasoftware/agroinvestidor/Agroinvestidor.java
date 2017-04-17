@@ -10,15 +10,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-//import com.badlogic.gdx.scenes.scene2d.ui.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-
+// menu
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.VisUI.SkinScale;
+import com.kotcrab.vis.ui.widget.MenuBar;
+import com.kotcrab.vis.ui.widget.Menu;
+import com.kotcrab.vis.ui.widget.MenuItem;
 
 public class Agroinvestidor extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -26,10 +26,10 @@ public class Agroinvestidor extends ApplicationAdapter {
 	TiledMap map;
   	OrthographicCamera camera;
   	TiledMapRenderer tiledMapRenderer;
-  	TextButton.TextButtonStyle textButtonStyle;
 
-  	Stage stage;
-  	Skin skin;
+  	// menu
+  	private Stage stage;
+  	private MenuBar menuBar;
 
 	@Override
 	public void create () {
@@ -44,12 +44,31 @@ public class Agroinvestidor extends ApplicationAdapter {
 		map = new TmxMapLoader().load("mapa.tmx");
     	tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
 
-    	// botao
-    	stage = new Stage();
-    	createBasicSkin();
-    	TextButton botao = new TextButton("teste", skin);
-    	botao.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
-    	stage.addActor(botao);
+    	// menu
+    	VisUI.load(SkinScale.X1);
+    	stage = new Stage(new ScreenViewport());
+    	final Table root = new Table();
+    	root.setFillParent(true);
+    	stage.addActor(root);
+
+    	Gdx.input.setInputProcessor(stage);
+
+    	menuBar = new MenuBar();
+    	menuBar.setMenuListener(new MenuBar.MenuBarListener(){
+    		@Override
+    		public void menuOpened (Menu menu){
+    			System.out.println("Opened menu: " + menu.getTitle());
+    		}
+
+    		@Override
+    		public void menuClosed (Menu menu){
+    			System.out.println("Closed menu: " + menu.getTitle());
+    		}
+    	});
+    	root.add(menuBar.getTable()).expandX().fillX().row();
+    	root.add().expand().fill();
+
+    	createMenus();
 	}
 
 	@Override
@@ -62,41 +81,35 @@ public class Agroinvestidor extends ApplicationAdapter {
     	tiledMapRenderer.setView(camera);
     	tiledMapRenderer.render();
 		batch.end();
+		// menu
+		//stage.act(Match.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.draw();
 
-		Gdx.input.setInputProcessor(stage);
-		stage.act();
-        stage.draw();
 	}
 
 	@Override
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+		// menu
+		VisUI.dispose();
+		stage.dispose();
 	}
 
+	private void createMenus () {
+		Menu fileMenu = new Menu("File");
+		Menu editMenu = new Menu("Edit");
 
+		fileMenu.addItem(new MenuItem("menuitem #1"));
+		fileMenu.addItem(new MenuItem("menuitem #2").setShortcut("f1"));
+		fileMenu.addItem(new MenuItem("menuitem #3").setShortcut("f2"));
 
-	public void createBasicSkin(){
-		//Create a font
-		BitmapFont font = new BitmapFont();
-		skin = new Skin();
-		skin.add("default", font);
+		editMenu.addItem(new MenuItem("menuitem #4"));
+		editMenu.addItem(new MenuItem("menuitem #5").setShortcut("f3"));
+		editMenu.addSeparator();
+		editMenu.addItem(new MenuItem("menuitem #6").setShortcut("f4"));
 
-		//Create a texture
-		Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth()/4,(int)Gdx.graphics.getHeight()/10, Pixmap.Format.RGB888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		skin.add("background",new Texture(pixmap));
-
-		//Create a button style
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
-		textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
-		textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
-		textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
-		textButtonStyle.font = skin.getFont("default");
-		skin.add("default", textButtonStyle);
-
+		menuBar.addMenu(fileMenu);
+		menuBar.addMenu(editMenu);
 	}
-
 }
