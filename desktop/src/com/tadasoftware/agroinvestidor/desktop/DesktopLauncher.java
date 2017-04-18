@@ -7,8 +7,8 @@ import com.tadasoftware.agroinvestidor.Agroinvestidor;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1360;
-		config.height = 760;
+		config.width = 1300;
+		config.height = 700;
 		new LwjglApplication(new Agroinvestidor(), config);
 	}
 }

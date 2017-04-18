@@ -76,8 +76,8 @@ public class Agroinvestidor extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
-    tiledMapRenderer.setView(camera);
-    tiledMapRenderer.render();
+    	tiledMapRenderer.setView(camera);
+    	tiledMapRenderer.render();
 	 	batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(img, 0, 0);
@@ -98,19 +98,23 @@ public class Agroinvestidor extends ApplicationAdapter {
 	}
 
 	private void createMenus () {
-		Menu fileMenu = new Menu("File");
-		Menu editMenu = new Menu("Edit");
+		Menu mercadoMenu = new Menu("Mercado");
+		Menu configMenu = new Menu("Configurações");
+		Menu ajudaMenu = new Menu("Ajuda");
 
-		fileMenu.addItem(new MenuItem("menuitem #1"));
-		fileMenu.addItem(new MenuItem("menuitem #2").setShortcut("f1"));
-		fileMenu.addItem(new MenuItem("menuitem #3").setShortcut("f2"));
+		mercadoMenu.addItem(new MenuItem("Compra #1"));
+		mercadoMenu.addItem(new MenuItem("Venda  #2").setShortcut("f1"));
+		mercadoMenu.addItem(new MenuItem("Banco  #3").setShortcut("f2"));
 
-		editMenu.addItem(new MenuItem("menuitem #4"));
-		editMenu.addItem(new MenuItem("menuitem #5").setShortcut("f3"));
-		editMenu.addSeparator();
-		editMenu.addItem(new MenuItem("menuitem #6").setShortcut("f4"));
+		configMenu.addItem(new MenuItem("Salvar #4"));
+		configMenu.addItem(new MenuItem("Sair   #5").setShortcut("f3"));
+		configMenu.addSeparator();
+		configMenu.addItem(new MenuItem("menuitem #6").setShortcut("f4"));
 
-		menuBar.addMenu(fileMenu);
-		menuBar.addMenu(editMenu);
+		ajudaMenu.addItem(new MenuItem("Sobre"));
+
+		menuBar.addMenu(mercadoMenu);
+		menuBar.addMenu(configMenu);
+		menuBar.addMenu(ajudaMenu);
 	}
 }
