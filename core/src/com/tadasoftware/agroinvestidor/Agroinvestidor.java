@@ -1,5 +1,8 @@
 package com.tadasoftware.agroinvestidor;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +29,9 @@ public class Agroinvestidor extends ApplicationAdapter {
 	TiledMap map;
   	OrthographicCamera camera;
   	TiledMapRenderer tiledMapRenderer;
+  	int tileWidth = 32;
+  	private float h;
+  	
 
   	// menu
   	private Stage stage;
@@ -34,7 +40,7 @@ public class Agroinvestidor extends ApplicationAdapter {
 	@Override
 	public void create () {
 		float w = Gdx.graphics.getWidth();
-    	float h = Gdx.graphics.getHeight();
+    	h = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
 		img = new Texture(Gdx.files.internal("tendatocos.png"));
 
@@ -76,11 +82,13 @@ public class Agroinvestidor extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
-    	tiledMapRenderer.setView(camera);
-    	tiledMapRenderer.render();
+	    tiledMapRenderer.setView(camera);
+	    tiledMapRenderer.render();
 	 	batch.setProjectionMatrix(camera.combined);
+	 	// construção segue o mouse
+	 	int[] mouseTilePos = objectGridPlace();
 		batch.begin();
-		batch.draw(img, 0, 0);
+		batch.draw(img, mouseTilePos[0], h-mouseTilePos[1]);
 		batch.end();
 		// menu
 		//stage.act(Match.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -116,5 +124,16 @@ public class Agroinvestidor extends ApplicationAdapter {
 		menuBar.addMenu(mercadoMenu);
 		menuBar.addMenu(configMenu);
 		menuBar.addMenu(ajudaMenu);
+	}
+	
+	private int[] objectGridPlace() {
+		int[] mousePos = { Gdx.input.getX(), Gdx.input.getY() };
+		int worldX = Math.floorDiv(mousePos[0], tileWidth);
+		int worldY = Math.floorDiv(mousePos[1], tileWidth);
+		mousePos[0] = worldX*tileWidth;
+		mousePos[1] = worldY*tileWidth;
+		System.out.println("x: "+worldX + "y:" + worldY);
+		System.out.println("pixx: "+mousePos[0] + "pixy:" + mousePos[1]);
+		return mousePos;
 	}
 }
