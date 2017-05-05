@@ -2,8 +2,10 @@
 
 game desenvolvido pela TadaSoftware
 
-libgdx
+sfml
+
+https://www.sfml-dev.org/index.php
 
 '''
-./gradlew desktop:run
+ainda não tem hahahah
 '''
