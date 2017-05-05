@@ -1,0 +1,2 @@
+arquivos de som 
+por padrão sfml aceita apenas .ogg
