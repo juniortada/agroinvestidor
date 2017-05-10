@@ -1,3 +1,13 @@
+mkdir obj
+mkdir obj/Debug
+mkdir obj/Debug/modules
+mkdir obj/Debug/modules/tmxlite
+mkdir obj/Debug/modules/tmxlite/src
+mkdir obj/Debug/modules/tmxlite/src/detail
+mkdir obj/Debug/src
+mkdir bin
+mkdir bin/Debug
+
 g++ -Wall -fexceptions -g -Imodules/tmxlite/include -c ~/Projetos/agroinvestidor/modules/tmxlite/src/detail/pugixml.cpp -o obj/Debug/modules/tmxlite/src/detail/pugixml.o
 g++ -Wall -fexceptions -g -Imodules/tmxlite/include -c ~/Projetos/agroinvestidor/modules/tmxlite/src/FreeFuncs.cpp -o obj/Debug/modules/tmxlite/src/FreeFuncs.o
 g++ -Wall -fexceptions -g -Imodules/tmxlite/include -c ~/Projetos/agroinvestidor/modules/tmxlite/src/ImageLayer.cpp -o obj/Debug/modules/tmxlite/src/ImageLayer.o
